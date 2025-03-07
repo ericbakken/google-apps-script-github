@@ -66,7 +66,7 @@ function cleanReadme(content) {
 }
 
 /**
- * Generate a brief README using OpenAI's GPT-4. This README is meant to provide
+ * Generate a brief README using OpenAI's GPT-4o. This README is meant to provide
  * a short overview of the project.
  */
 async function generateReadme(codeFiles, diff) {
@@ -84,7 +84,7 @@ Now, generate the complete README content in Markdown.
 `;
 
   const payload = {
-    model: "gpt-4",
+    model: "gpt-4o",
     messages: [{ role: "user", content: prompt }],
     max_tokens: 1500,
     temperature: 0.3,
