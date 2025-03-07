@@ -6,9 +6,9 @@ const path = require('path');
 const axios = require('axios');
 
 // ------------------------------
-// Configuration – Replace with your own OpenAI API key.
-const OPENAI_API_KEY = 'your_openai_api_key_here'; // Use a placeholder here.
-/// ------------------------------
+// Configuration – update with your actual OpenAI API key.
+const OPENAI_API_KEY = 'YOUR_OPENAI_API_KEY_HERE'; // Replace with your actual key.
+// ------------------------------
 
 const PROJECT_NAME = path.basename(process.cwd());
 
@@ -18,7 +18,6 @@ const PROJECT_NAME = path.basename(process.cwd());
 function getProjectFiles() {
   const validExts = ['.gs', '.js', '.html', '.json'];
   const codeFiles = {};
-
   fs.readdirSync(process.cwd()).forEach(file => {
     if (validExts.includes(path.extname(file))) {
       const content = fs.readFileSync(file, 'utf8');
@@ -29,7 +28,7 @@ function getProjectFiles() {
 }
 
 /**
- * Retrieves the git diff (changes since last commit).
+ * Retrieves the git diff (changes that haven't been committed).
  */
 function getGitDiff() {
   try {
@@ -42,8 +41,20 @@ function getGitDiff() {
 }
 
 /**
- * Clean the generated README content by removing unwanted header lines.
- * In this example, it removes any line starting with "```markdown" as well as lines containing "{apps script ID".
+ * Checks if the repository is empty (i.e., no commits exist).
+ */
+function isRepoEmpty() {
+  try {
+    execSync('git rev-parse HEAD', { encoding: 'utf8' });
+    return false;
+  } catch (error) {
+    return true;
+  }
+}
+
+/**
+ * Cleans the generated README content by removing unwanted header lines.
+ * For example, it removes lines starting with "```markdown" or those containing "{apps script ID".
  */
 function cleanReadme(content) {
   const lines = content.split('\n');
@@ -56,7 +67,7 @@ function cleanReadme(content) {
 }
 
 /**
- * Generates a README.md using the OpenAI API.
+ * Generates the README.md using the OpenAI API.
  */
 async function generateReadme(codeFiles, diff) {
   let prompt = `
@@ -66,7 +77,7 @@ The README should include:
 
 1. An overview and purpose of the project.
 2. A list of each file with a brief summary of its functionality.
-3. A "Version Control Summary" section that explains the changes in the latest update (based on the provided git diff). If no changes occurred, state that clearly.
+3. A "Version Control Summary" section that explains the changes in the latest update based on the provided git diff. If no changes occurred, state that clearly.
 4. Usage instructions, dependency notes, and maintenance recommendations.
 
 Below are the details of the project files:
@@ -111,7 +122,7 @@ Summary for ${filename}: Briefly describe what this file does.
 }
 
 /**
- * Main function: update README.md only if changes are detected.
+ * Main function: updates README.md only if changes exist, or forces update for new repos.
  */
 async function deployProject() {
   console.log("Reading project files...");
@@ -120,14 +131,18 @@ async function deployProject() {
   console.log("Retrieving git diff for change summary...");
   const diff = getGitDiff();
   
-  if (diff.trim() === "") {
+  const repoEmpty = isRepoEmpty();
+  
+  // If repo is not empty and no changes detected, skip update.
+  if (!repoEmpty && diff.trim() === "") {
     console.log("No changes detected. Skipping README update and git push.");
     process.exit(0);
   }
   
   console.log("Generating README.md with OpenAI...");
   let readmeContent = await generateReadme(codeFiles, diff);
-  // Clean unwanted header content.
+  
+  // Clean unwanted content from the generated README.
   readmeContent = cleanReadme(readmeContent);
   
   fs.writeFileSync("README.md", readmeContent, "utf8");
