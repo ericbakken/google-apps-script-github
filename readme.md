@@ -135,18 +135,13 @@ flowchart TD
 - **Clasp Issues:**  
   Make sure **clasp** is installed and logged in properly (`clasp login`).
 
----
-
-## 📜 License
-
-This package is available under the [MIT License](LICENSE).
 
 ---
 
 ## 🙌 Contributing
 
 Feel free to fork this repository and submit pull requests with improvements. Happy coding and enjoy automating your deployment process! 🚀
-```
+
 
 ### 1. Two-Way Synchronization
 - **Bidirectional Sync:**  
