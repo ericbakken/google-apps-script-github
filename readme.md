@@ -1,6 +1,6 @@
 # 🚀 GAS Auto-Deploy & AI README Updater
 
-![Header Image](https://via.placeholder.com/800x200?text=GAS+Auto-Deploy+%26+AI+README+Updater)
+!(https://via.placeholder.com/800x200?text=GAS+Auto-Deploy+%26+AI+README+Updater)
 
 > **Automate your Google Apps Script deployments!**  
 > This package makes it effortless to sync your GAS projects with GitHub, auto-create repositories, and generate stunning, AI-powered documentation—only when changes occur.
