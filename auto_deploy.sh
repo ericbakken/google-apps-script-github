@@ -1,5 +1,6 @@
 #!/bin/bash
 # File: auto_deploy.sh
+# make sure to make the script executable chmod +x auto_deploy.sh
 
 # Base directory where your GAS projects will be stored.
 BASE_DIR="$HOME/gas-projects"
