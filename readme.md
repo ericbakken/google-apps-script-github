@@ -22,13 +22,13 @@
 ## ✨ Features
 
 - **Automated Cloning/Updating:**  
-  Uses **clasp** to clone or update your GAS projects based on a CSV file.
+  Uses **clasp** to clone or update your GAS projects based on a CSV file in which you've pasted in your GAS project IDs and plain text project names. 
 
 - **Automatic GitHub Repo Creation:**  
   Automatically creates private GitHub repositories (via the GitHub API) using human-friendly names.
 
 - **AI-Powered README Generation:**  
-  Uses OpenAI's GPT-3.5 to generate a beautiful, formatted README only when changes are detected.  
+  Uses your OpenAI API key and choice of model to generate a beautiful, formatted README only when changes are detected.  
   (The process will also clean up any unwanted formatting produced by the AI.)
 
 - **Seamless Git Integration:**  
